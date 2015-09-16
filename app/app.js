@@ -93,11 +93,11 @@ var youTubeMusicListVue = new Vue({
   },
   ready: function() {
     var app = this;
-    app.addSongFromYouTubeId('NQIkzXMG9gQ')
+    app.addSongFromYouTubeId('ZTidn2dBYbY')
       .then(function() {
-        return app.addSongFromYouTubeId('ZBF3IIbvrWc');
+        return app.addSongFromYouTubeId('I_izvAbhExY');
       }).then(function() {
-        return app.addSongFromYouTubeId('B7SDDp8e_OQ');
+        return app.addSongFromYouTubeId('dQw4w9WgXcQ');
       });
   },
   methods: {
