@@ -95,11 +95,11 @@ var youTubeMusicListVue = new Vue({
   },
   ready: function() {
     var app = this;
-    app.addSongFromYouTubeId('NQIkzXMG9gQ')
+    app.addSongFromYouTubeId('ZTidn2dBYbY')
       .then(function() {
-        return app.addSongFromYouTubeId('ZBF3IIbvrWc');
+        return app.addSongFromYouTubeId('I_izvAbhExY');
       }).then(function() {
-        return app.addSongFromYouTubeId('B7SDDp8e_OQ');
+        return app.addSongFromYouTubeId('dQw4w9WgXcQ');
       });
   },
   methods: {
@@ -208,8 +208,9 @@ var youTubeMusicListVue = new Vue({
       });
     },
     spotifyGetCover: function(songTitle, songArtist) {
-      var http = this.$http;
-      var spotifySearchQuery = this.sanitizeString(songTitle) + '+' + this.sanitizeString(songArtist);
+      var app = this;
+      var http = app.$http;
+      var spotifySearchQuery = app.sanitizeString(songTitle) + '+' + app.sanitizeString(songArtist);
 
       return new Promise(function(resolve, reject) {
         http.get('https://api.spotify.com/v1/search?q=' + spotifySearchQuery + '&type=track', function(data) {
@@ -230,9 +231,11 @@ var youTubeMusicListVue = new Vue({
     addSong: function(event) {
       event.preventDefault();
 
-      if (this.youtubeUrl) {
-        var id = this.youtubeUrl.split('?v=')[1];
-        this.addSongFromYouTubeId(id);
+      var app = this;
+
+      if (app.youtubeUrl) {
+        var id = app.youtubeUrl.split('?v=')[1];
+        app.addSongFromYouTubeId(id);
       }
     },
     playSong: function(index) {
