@@ -1,14 +1,21 @@
 {
   "name": "yt-music-player",
   "version": "0.0.1",
-  "description": "YouTube Music Plöayer\u001b[D\u001b[D\u001b[D\u001b[",
-  "main": "index.js",
+  "description": "Music player",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [
     "music"
   ],
+  "engines": {
+    "node": "4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/enji/youtube-music-player/"
+  },
   "author": "Jeremy Karlsson",
   "license": "ISC",
   "devDependencies": {
@@ -26,6 +33,7 @@
     "webpack-stream": "^2.1.0"
   },
   "dependencies": {
+    "express": "^4.13.3",
     "vue": "^0.12.13",
     "vue-i18n": "^2.1.0",
     "vue-resource": "^0.1.15"
