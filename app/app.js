@@ -64,12 +64,6 @@ var youTubePlayerVue = new Vue({
     playerReady: function(event) {
       //console.debug('[Vue:YouTube Music Player] YoutubePlayer is ready.');
       event.target.setVolume(100);
-      this.playSong({
-        artist: 'KC & The Sunshine Band',
-        title: 'Give It Up',
-        cover: 'https://i.scdn.co/image/607129929c0453783bbd6ec805c8bdcba9e06c67',
-        youtubeId: 'IeqtAB1WgEw'
-      });
       this.canPlay = true;
     },
     playerStateChange: function(event) {
@@ -98,29 +92,63 @@ var youTubeMusicListVue = new Vue({
     youtubeUrl: ''
   },
   ready: function() {
-    var songs = [
-       {
-        artist: 'Rameses B',
-        title: 'Bae Bae',
-        cover: 'https://i.scdn.co/image/38c6806e5f7b51545ddb81661b2b0cbe5e2ca333',
-        youtubeId: 'prd6fFFMjEk'
-       },
-       {
-        artist: 'Cash Cash',
-        title: 'Surrender',
-        cover: 'https://i.scdn.co/image/7901b61aff1d23c5f2719b74c1e9a68c40dd54f8',
-        youtubeId: 'xAIoh9rxRi8'
-       },
-       {
-        artist: 'Lost Frequencies',
-        title: 'Reality',
-        cover: 'https://i.scdn.co/image/d8b93f82731d81f65b8bd0a89730ecc5fb584e19',
-        youtubeId: 'ilw-qmqZ5zY'
-       }
-    ];
-    this.songs = songs;
+    var app = this;
+    app.addSongFromYouTubeId('NQIkzXMG9gQ')
+      .then(function() {
+        return app.addSongFromYouTubeId('ZBF3IIbvrWc');
+      }).then(function() {
+        return app.addSongFromYouTubeId('B7SDDp8e_OQ');
+      });
   },
   methods: {
+    getYoutubeTitle: function(youtubeId) {
+      var http = this.$http;
+
+      return new Promise(function(resolve, reject) {
+        // var apiKey = 'AIzaSyDkcnW3k8jX423bTAyRMHuIBrOOogwSaZA'; // Live
+        var apiKey = 'AIzaSyA92ylDiDyvyHX_RczMaydPAdu69aHOk5I'; // Localhost
+
+        http.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + youtubeId + '&key=' + apiKey, function(data) {
+          resolve(data.items[0].snippet.title);
+        }).error(function(data, status, request) {
+          reject(data);
+        });
+      });
+    },
+    addSongFromYouTubeId: function(youtubeId) {
+        var app = this;
+
+        return new Promise(function(resolve, reject) {
+          app.getYoutubeTitle(youtubeId).then(function(title) {
+            var songMeta = app.youtubeTitleToSongMeta(title);
+
+            var song = app.song;
+
+            song.title = app.sanitizeString(songMeta.title);
+            song.artist = songMeta.artist;
+            song.youtubeId = youtubeId;
+
+            app.spotifyGetArtist(song.artist).then(function(data) {
+              song.backdrop = data.images[0].url;
+
+              app.spotifyGetCover(songMeta.title, songMeta.artist).then(function(coverUrl) {
+                song.cover = coverUrl;
+                app.songs.push(song);
+
+                // Reset song variable
+                app.song = {
+                  artist: '',
+                  title: '',
+                  cover: '',
+                  youtubeId: ''
+                };
+
+                resolve(true);
+              });
+            });
+          });
+        });
+    },
     youtubeTitleToSongMeta: function(name) {
       name = name === null ? 'Unkown' : name;
       name = name.replace(/_/g, ' ');
@@ -136,8 +164,8 @@ var youTubeMusicListVue = new Vue({
           artist: artist
       };
     },
-    stringSnip: function(q) {
-      // If the string contains [ or ( then remove them.
+    sanitizeString: function(q) {
+      // If the string contains {,[ or ( then remove them.
       if (q.indexOf('[') !== -1 || q.indexOf('(') !== -1) {
           // Remove text in brackets and the brackets
           q = q.replace(/ *\([^)]*\) */g, '');
@@ -152,68 +180,57 @@ var youTubeMusicListVue = new Vue({
       if (q.indexOf('feat') !== -1) {
           q = q.replace(/feat/g, ', ');
       }
+
       if (q.indexOf('') !== -1) {
           q = q.replace(/feat/g, ', ');
       }
-      q = q.replace(/^"(.+(?="$))"$/, '$1');
+      q = q.replace('(ft', '');
+      q = q.replace('(,', '');
       return q;
     },
-    getSpotifyMetaData: function(songTitle, songArtist) {
-      var spotifySearchQuery = this.stringSnip(songTitle) + '+' + this.stringSnip(songArtist);
-      var spotifyApi = 'https://api.spotify.com/v1/search?q=' + spotifySearchQuery + '&type=track';
+    spotifySearchArtist: function(artistName) {
+      var http = this.$http;
 
-      //console.debug('Searching Spotify Web API for "' + spotifySearchQuery + '"');
+      return new Promise(function(resolve, reject) {
+        http.get('https://api.spotify.com/v1/search?q=' + artistName + '&type=artist', function(data) {
+          resolve(data);
+        });
+      });
+    },
+    spotifyGetArtist: function(artistName) {
+      var app = this;
+      return new Promise(function(resolve, reject) {
+        app.spotifySearchArtist(artistName).then(function(data) {
+          resolve(data.artists.items[0]);
+        });
+      });
+    },
+    spotifyGetCover: function(songTitle, songArtist) {
+      var http = this.$http;
+      var spotifySearchQuery = this.sanitizeString(songTitle) + '+' + this.sanitizeString(songArtist);
 
-      this.$http.get(spotifyApi, function(data) {
-        if (data.tracks.total > 0) {
-          var song = data.tracks.items[0];
-          //console.debug(song);
-          //this.song.title = song.name;
-          //this.song.artist = song.artists[0].name;
-          this.song.cover = song.album.images[0].url;
-        } else {
-           this.song.cover = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-        }
+      return new Promise(function(resolve, reject) {
+        http.get('https://api.spotify.com/v1/search?q=' + spotifySearchQuery + '&type=track', function(data) {
+          var cover;
+          if (data.tracks.total > 0) {
+            var song = data.tracks.items[0];
+            cover = song.album.images[0].url;
+          } else {
+            cover = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+          }
 
-        this.songs.push(this.song);
-
-        // Reset song variable
-        this.song = {
-          artist: '',
-          title: '',
-          cover: '',
-          youtubeId: ''
-        };
-      }).error(function(data, status, request) {
-        console.error(data);
-        console.error(status);
-        console.error(request);
+          resolve(cover);
+        }).error(function(data, status, request) {
+          reject(data);
+        });
       });
     },
     addSong: function(event) {
       event.preventDefault();
 
       if (this.youtubeUrl) {
-        var youtubeId = this.youtubeUrl.split('?v=')[1];
-       // var apiKey = 'AIzaSyDkcnW3k8jX423bTAyRMHuIBrOOogwSaZA'; // Live
-        var apiKey = 'AIzaSyA92ylDiDyvyHX_RczMaydPAdu69aHOk5I'; // Localhost
-        var youtubeApi = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + youtubeId + '&key=' + apiKey;
-        var songMeta;
-
-        this.$http.get(youtubeApi, function(data) {
-          var youtubeTitle = data.items[0].snippet.title;
-          songMeta = this.youtubeTitleToSongMeta(youtubeTitle);
-
-          this.song.title = this.stringSnip(songMeta.title);
-          this.song.artist = songMeta.artist;
-          this.song.youtubeId = youtubeId;
-
-          this.getSpotifyMetaData(songMeta.title, songMeta.artist);
-        }).error(function(data, status, request) {
-          console.error(data);
-          console.error(status);
-          console.error(request);
-        });
+        var id = this.youtubeUrl.split('?v=')[1];
+        this.addSongFromYouTubeId(id);
       }
     },
     playSong: function(index) {

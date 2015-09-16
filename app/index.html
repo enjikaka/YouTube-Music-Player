@@ -18,7 +18,9 @@
 
   <div id="youtube-music-player">
     <div id="youtube"></div>
-    <img src="{{currentSong.cover}}" class="backdrop" alt="backdrop">
+    <div class="backdrop-container">
+      <img src="{{currentSong.backdrop}}" class="backdrop" alt="backdrop">
+    </div>
     <div class="current-song" >
       <figure class="song-cover">
         <img src="{{currentSong.cover}}" alt="Cover of {{currentSong.title}} by {{currentSong.artist}}">
