@@ -1,0 +1,103 @@
+body {
+  background-color: #757575;
+  font-size: calc(12px + 9 * ( (100vw - 420px) / 860));
+  font-family: 'Open Sans', sans-serif;
+  margin: 0; }
+@media screen and (max-width: 420px) {
+  body {
+    font-size: 12px; } }
+@media screen and (min-width: 1280px) {
+  body {
+    font-size: 21px; } }
+
+#youtube-music-player {
+  position: relative;
+  overflow: hidden; }
+  #youtube-music-player #youtube {
+    display: none; }
+  #youtube-music-player .backdrop {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    -webkit-filter: blur(10px);
+            filter: blur(10px);
+    z-index: 0; }
+  #youtube-music-player .current-song {
+    padding: 2rem;
+    margin: 2rem auto;
+    position: relative;
+    z-index: 10;
+    color: white;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+    #youtube-music-player .current-song .song-cover {
+      width: 256px;
+      height: 256px;
+      margin: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); }
+      #youtube-music-player .current-song .song-cover img {
+        display: block;
+        width: 100%;
+        height: 100%; }
+    #youtube-music-player .current-song .song-title {
+      font-size: 2em;
+      margin-top: .75em;
+      font-weight: 300; }
+    #youtube-music-player .current-song .song-title, #youtube-music-player .current-song .song-artist {
+      text-align: center;
+      display: block; }
+
+#youtube-music-list {
+  background-color: white;
+  padding: 2rem;
+  margin: 2rem auto; }
+  #youtube-music-list .song-list {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    #youtube-music-list .song-list .song {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-flow: row nowrap;
+          -ms-flex-flow: row nowrap;
+              flex-flow: row nowrap;
+      -webkit-box-align: baseline;
+      -webkit-align-items: baseline;
+          -ms-flex-align: baseline;
+              align-items: baseline; }
+      #youtube-music-list .song-list .song button {
+        background: none;
+        border: none;
+        color: black;
+        font-size: 1em;
+        cursor: pointer; }
+        #youtube-music-list .song-list .song button:hover {
+          color: blue; }
+      #youtube-music-list .song-list .song .artist {
+        font-size: .8em;
+        margin-left: .4em; }

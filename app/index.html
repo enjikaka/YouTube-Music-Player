@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>YouTube Player</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="youtube-music-player">
+    <div id="youtube"></div>
+    <img src="{{currentSong.cover}}" class="backdrop" alt="backdrop">
+    <div class="current-song" >
+      <figure class="song-cover">
+        <img src="{{currentSong.cover}}" alt="Cover of {{currentSong.title}} by {{currentSong.artist}}">
+      </figure>
+
+      <span class="song-title">{{currentSong.title}}</span>
+      <span class="song-artist">{{currentSong.artist}}</span>
+    </div>
+  </div>
+
+  <div id="youtube-music-list">
+    <section class="add-song">
+      <h2>{{ $t('title.addSong') }}</h2>
+      <form v-on="submit: addSong">
+        <label for="youtube-url">{{ $t('label.youtubeUrl') }}</label>
+        <input id="youtube-url" name="youtube-url" type="url" placeholder="https://www.youtube.com/watch?v=yBVjJKoA4dk" v-model="youtubeUrl">
+
+        <button type="submit">{{ $t('button.addSong') }}</button>
+      </form>
+    </section>
+    <section class="song-list">
+      <h2>{{ $t('title.songs') }}</h2>
+      <div class="song" v-repeat="song in songs">
+        <button v-on="click: playSong($index)">&#9654;</button> <span class="title">{{song.title}}</span> <span class="artist">{{song.artist}}</span>
+      </div>
+    </section>
+  </div>
+
+  <script src="app-locales.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
