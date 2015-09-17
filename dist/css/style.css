@@ -5,7 +5,17 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #5d5d5d; }
+  color: #5d5d5d;
+  font-size: 10pt; }
+
+::-webkit-scrollbar {
+  width: 4px; }
+
+::-webkit-scrollbar-track {
+  background-color: #f7f7f7; }
+
+::-webkit-scrollbar-thumb {
+  background-color: #48bef0; }
 
 .site {
   display: -webkit-flex;
@@ -14,11 +24,13 @@ body {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  height: 100vh; }
+  height: 100vh;
+  max-height: 100vh; }
   .site #youtube-music-list {
     -webkit-flex: 1;
     -ms-flex: 1;
-    flex: 1; }
+    flex: 1;
+    overflow-y: scroll; }
 
 #youtube-music-player {
   position: relative;
@@ -219,6 +231,9 @@ body {
     align-items: center;
     margin: 1rem;
     outline: none; }
+  #youtube-music-controller .elapsed-time {
+    font-size: .7rem;
+    margin: 0 0.5rem; }
   #youtube-music-controller .progress-holder {
     -webkit-flex: 1;
     -ms-flex: 1;
