@@ -266,8 +266,13 @@ var youTubeMusicListVue = new Vue({
       this.$data.addSongShow = this.$data.addSongShow === true ? false : true;
       if (!this.$data.addSongShow) {
         this.$data.addSongButton = '+';
+        this.$data.youtubeUrl = null;
+        document.querySelector('#youtube-url').blur();
+
       } else {
         this.$data.addSongButton = '-';
+        this.$data.youtubeUrl = null;
+        document.querySelector('#youtube-url').focus();
       }
     },
     addSongState: function() {
