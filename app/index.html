@@ -15,40 +15,45 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <div id="youtube-music-player">
-    <div id="youtube"></div>
-    <div class="backdrop-container">
-      <img src="{{currentSong.backdrop}}" class="backdrop" alt="backdrop">
-    </div>
-    <div class="current-song" >
-      <figure class="song-cover">
-        <img src="{{currentSong.cover}}" alt="Cover of {{currentSong.title}} by {{currentSong.artist}}">
-      </figure>
-
-      <span class="song-title">{{currentSong.title}}</span>
-      <span class="song-artist">{{currentSong.artist}}</span>
-    </div>
-  </div>
-
-  <div id="youtube-music-list">
-    <section class="add-song">
-      <h2>{{ $t('title.addSong') }}</h2>
-      <form v-on="submit: addSong">
-        <label for="youtube-url">{{ $t('label.youtubeUrl') }}</label>
-        <input id="youtube-url" name="youtube-url" type="url" placeholder="https://www.youtube.com/watch?v=yBVjJKoA4dk" v-model="youtubeUrl">
-
-        <button type="submit">{{ $t('button.addSong') }}</button>
-      </form>
-    </section>
-    <section class="song-list">
-      <h2>{{ $t('title.songs') }}</h2>
-      <div class="song" v-repeat="song in songs">
-        <button v-on="click: playSong($index)">&#9654;</button> <span class="title">{{song.title}}</span> <span class="artist">{{song.artist}}</span>
+  <div class="site">
+    <div id="youtube-music-player">
+      <div id="youtube"></div>
+      <div class="backdrop-container">
+        <img src="{{currentSong.cover}}" class="backdrop" alt="backdrop">
       </div>
-    </section>
-  </div>
+      <div class="current-song" >
+        <figure class="song-cover">
+          <img src="{{currentSong.cover}}" alt="Cover of {{currentSong.title}} by {{currentSong.artist}}">
+        </figure>
+        <div class="song-info">
+          <span class="song-title">{{currentSong.title}}</span>
+          <span class="song-artist" v-on="click: artistDrawerToggle()">{{currentSong.artist.name}}</span>
+        </div>
+        <div id="artist-drawer" v-class="show: artistDrawerState()">
+          <figure class="artist-image">
+            <img src="{{currentSong.artist.image}}">
+          </figure>
+          <span class="artist-name" v-on="click: artistDrawerToggle()">{{currentSong.artist.name}}</span>
+        </div>
+      </div>
+    </div>
 
+    <div id="youtube-music-list">
+      <div class="add-song" v-class="show: addSongState()">
+        <form v-on="submit: addSong">
+          <input id="youtube-url" name="youtube-url" type="url" placeholder="https://www.youtube.com/watch?v=yBVjJKoA4dk" v-model="youtubeUrl">
+
+          <button type="submit">{{ $t('button.addSong') }}</button>
+        </form>
+      </div>
+      <button v-on="click: addSongToggle()" class="add-song-button">{{addSongButton}}</button>
+      <div class="song-list">
+        <div class="song" v-repeat="song in songs" v-on="dblclick: playSong($index)">
+          <span class="title">{{song.title}}</span> <span class="artist">{{song.artist.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="app-locales.js"></script>
   <script src="app.js"></script>
 </body>

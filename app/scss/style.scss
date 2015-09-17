@@ -1,13 +1,25 @@
 body {
   background-color: #757575;
-  font-size: responsive;
+  font-size: 12pt;
   font-family: 'Open Sans', sans-serif;
   margin: 0;
+  user-select: none;
+}
+
+.site {
+  display: flex;
+  flex-direction: column;
+  height:100vh;
+
+  #youtube-music-list {
+    flex: 1;
+  }
 }
 
 #youtube-music-player {
   position: relative;
   overflow: hidden;
+  background-color: black;
 
   #youtube {
     display: none;
@@ -19,11 +31,95 @@ body {
     left: -10%;
     width: 120%;
     height: 120%;
-    filter: blur(10px);
+    filter: blur(20px);
     z-index: 0;
+    opacity: .7;
   }
 
   .current-song {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 2;
+
+    #artist-drawer {
+      height: 352px;
+      width: 0px;
+      transition: all 350ms ease;
+      color: white;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 100;
+      background-color: rgba(255,255,255,0.3);
+
+      &.show {
+        width: 300px;
+      }
+
+      .artist-image {
+        margin: 0;
+
+        img {
+          object-fit: cover;
+          width: 300px;
+          height: 352px;
+        }
+      }
+
+      .artist-name {
+        z-index: 101;
+        background-color: rgba(0,0,0,.5);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: block;
+        width: 300px;
+        font-size: 1.2rem;
+        padding: 1rem;
+      }
+    }
+
+    .song-cover {
+      width: 256px;
+      height: 256px;
+      margin: 3em;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .song-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      color: white;
+      text-shadow: -1px -1px 0 rgba(0,0,0,.3);
+    }
+
+    .song-title {
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+
+    .song-artist {
+      font-size: 1rem;
+      font-weight: 300;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /*.current-song {
     padding: 2rem;
     margin: 2rem auto;
     position: relative;
@@ -57,22 +153,86 @@ body {
       text-align: center;
       display: block;
     }
-  }
+  }*/
 }
 
 #youtube-music-list {
   background-color: white;
-  padding: 2rem;
-  margin: 2rem auto;
+
+  .add-song {
+    //background-color: #48bef0;
+    border: 2px solid #48bef0;
+    border-top: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 0 1rem;
+    padding: 0 1rem;
+    height: 0px;
+    transition: all 250ms ease;
+    color: #48bef0;
+
+    form {
+      display: flex;
+      padding-top: 1rem;
+      
+      input {
+        flex: 1;
+        background: white;
+        border: 1px solif #f7f7f7;
+        color: #555;
+        font-size: .8rem;
+        padding: .2rem .4rem;
+        outline: none;
+        display: block;
+      }
+
+      button {
+        color: white;
+        font-weight: 600;
+        background-color: #48bef0;
+        border: 0;
+        padding: .5rem 1rem;
+        display: block;
+        margin-left: .5rem;
+      }
+    }
+
+    &.show {
+      height: 4rem;
+    }
+  }
+
+  .add-song-button {
+    background: #48bef0;
+    color: #fff;
+    font-size: 1.4rem;
+    border: 0;
+    margin: 0 1rem;
+    outline: none;
+    width: 26px;
+  }
 
   .song-list {
     display: flex;
     flex-direction: column;
+    margin: 1rem;
 
     .song {
       display: flex;
       flex-flow: row nowrap;
       align-items: baseline;
+      padding: .5rem 1rem;
+      color: #5d5d5d;
+      transition: all 150ms ease;
+      cursor: default;
+
+      &:hover {
+        color: black;
+      }
+
+      &:nth-child(odd) {
+        background-color: #f7f7f7;
+      }
 
       button {
         background: none;

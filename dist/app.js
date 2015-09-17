@@ -1,5 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (global){
+var emptyGif = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
 var Vue = require('vue'),
     vueI18n = require('vue-i18n'),
     vueResource = require('vue-resource');
@@ -44,10 +46,14 @@ var youTubePlayerVue = new Vue({
   data: {
     youtubePlayer: null,
     canPlay: false,
+    showArtist: false,
     currentSong: {
-      artist: 'Artist',
+      artist: {
+        name: 'Artist',
+        image: emptyGif
+      },
       title: 'Title',
-      cover: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+      cover: emptyGif,
       youtubeId: 'IeqtAB1WgEw'
     }
   },
@@ -76,6 +82,12 @@ var youTubePlayerVue = new Vue({
       this.$data.currentSong = song;
       //console.debug(song.youtubeId);
       global.youtubePlayer.loadVideoById(song.youtubeId, 5, 'large');
+    },
+    artistDrawerToggle: function() {
+      this.$data.showArtist = this.$data.showArtist === true ? false : true;
+    },
+    artistDrawerState: function() {
+      return this.$data.showArtist;
     }
   }
 });
@@ -84,11 +96,16 @@ var youTubePlayerVue = new Vue({
 var youTubeMusicListVue = new Vue({
   el: '#youtube-music-list',
   data: {
+    addSongShow: false,
+    addSongButton:'+',
     songs: [],
     song: {
-      artist: '',
+      artist: {
+        name: '',
+        image: emptyGif
+      },
       title: '',
-      cover: '',
+      cover: emptyGif,
       youtubeId: ''
     },
     youtubeUrl: ''
@@ -127,11 +144,11 @@ var youTubeMusicListVue = new Vue({
             var song = app.song;
 
             song.title = app.sanitizeString(songMeta.title);
-            song.artist = songMeta.artist;
+            song.artist.name = app.sanitizeString(songMeta.artist);
             song.youtubeId = youtubeId;
 
-            app.spotifyGetArtist(song.artist).then(function(data) {
-              song.backdrop = data.images[0].url;
+            app.spotifyGetArtist(song.artist.name).then(function(data) {
+              song.artist.image = data.images[0] !== undefined ? data.images[0].url : emptyGif;
 
               app.spotifyGetCover(songMeta.title, songMeta.artist).then(function(coverUrl) {
                 song.cover = coverUrl;
@@ -139,9 +156,12 @@ var youTubeMusicListVue = new Vue({
 
                 // Reset song variable
                 app.song = {
-                  artist: '',
+                  artist: {
+                    name: '',
+                    image: emptyGif
+                  },
                   title: '',
-                  cover: '',
+                  cover: emptyGif,
                   youtubeId: ''
                 };
 
@@ -176,11 +196,11 @@ var youTubeMusicListVue = new Vue({
       }
       // If the string contains "ft.", replace with ","
       if (q.indexOf('ft.') !== -1) {
-          q = q.replace(/ft./g, ', ');
+         q = q.split('ft.')[0];
       }
       // If the string contains "feat", replace with ","
-      if (q.indexOf('feat') !== -1) {
-          q = q.replace(/feat/g, ', ');
+      if (q.indexOf('feat.') !== -1) {
+          q = q.split('feat.')[0];
       }
 
       if (q.indexOf('') !== -1) {
@@ -240,6 +260,17 @@ var youTubeMusicListVue = new Vue({
     },
     playSong: function(index) {
       youTubePlayerVue.playSong(this.songs[index]);
+    },
+    addSongToggle: function() {
+      this.$data.addSongShow = this.$data.addSongShow === true ? false : true;
+      if (!this.$data.addSongShow) {
+        this.$data.addSongButton = '+';
+      } else {
+        this.$data.addSongButton = '-';
+      }
+    },
+    addSongState: function() {
+      return this.$data.addSongShow;
     }
   }
 });
