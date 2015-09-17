@@ -1,20 +1,11 @@
 body {
-<<<<<<< HEAD
-=======
-  background-color: #757575;
-  font-size: 12pt;
->>>>>>> gh-pages
   font-family: 'Open Sans', 'Arial', sans-serif;
   margin: 0;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-<<<<<<< HEAD
   user-select: none;
   color: #5d5d5d; }
-=======
-  user-select: none; }
->>>>>>> gh-pages
 
 .site {
   display: -webkit-flex;
@@ -76,16 +67,9 @@ body {
     left: -10%;
     width: 120%;
     height: 120%;
-<<<<<<< HEAD
     z-index: 0;
     -webkit-filter: blur(20px);
     filter: blur(20px); }
-=======
-    -webkit-filter: blur(20px);
-    filter: blur(20px);
-    z-index: 0;
-    opacity: .7; }
->>>>>>> gh-pages
   #youtube-music-player .current-song {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -225,10 +209,6 @@ body {
       -ms-flex-align: baseline;
       align-items: baseline;
       padding: 0.5rem 1rem;
-<<<<<<< HEAD
-=======
-      color: #5d5d5d;
->>>>>>> gh-pages
       transition: all 150ms ease;
       cursor: default; }
       #youtube-music-list .song-list .song:hover {
