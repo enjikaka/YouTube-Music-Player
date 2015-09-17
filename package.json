@@ -26,6 +26,7 @@
     "gulp-bower": "0.0.10",
     "gulp-browserify": "^0.5.1",
     "gulp-rucksack": "^0.1.2",
+    "gulp-sass": "^2.0.4",
     "rucksack-css": "^0.7.0",
     "vue": "^0.12.13",
     "watchify": "^3.4.0",
