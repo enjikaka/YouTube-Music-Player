@@ -145,7 +145,7 @@ var youTubeMusicListVue = new Vue({
       });
   },
   methods: {
-    getYoutubeTitle: function(youtubeId) {
+    getYoutubeInfo: function(youtubeId) {
       var http = this.$http;
 
       return new Promise(function(resolve, reject) {
@@ -153,7 +153,7 @@ var youTubeMusicListVue = new Vue({
         var apiKey = 'AIzaSyA92ylDiDyvyHX_RczMaydPAdu69aHOk5I'; // Localhost
 
         http.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + youtubeId + '&key=' + apiKey, function(data) {
-          resolve(data.items[0].snippet.title);
+          resolve(data.items[0].snippet);
         }).error(function(data, status, request) {
           reject(data);
         });
@@ -163,7 +163,8 @@ var youTubeMusicListVue = new Vue({
         var app = this;
 
         return new Promise(function(resolve, reject) {
-          app.getYoutubeTitle(youtubeId).then(function(title) {
+          app.getYoutubeInfo(youtubeId).then(function(snippet) {
+            var title = snippet.title;
             var songMeta = app.youtubeTitleToSongMeta(title);
 
             var song = app.song;
@@ -171,12 +172,15 @@ var youTubeMusicListVue = new Vue({
             song.title = app.sanitizeString(songMeta.title);
             song.artist.name = app.sanitizeString(songMeta.artist);
             song.youtubeId = youtubeId;
+            song.artist.image = snippet.thumbnails.high.url;
+            song.cover = snippet.thumbnails.high.url;
 
             app.spotifyGetArtist(song.artist.name).then(function(data) {
               song.artist.image = data.images[0] !== undefined ? data.images[0].url : emptyGif;
 
               app.spotifyGetCover(songMeta.title, songMeta.artist).then(function(coverUrl) {
-                song.cover = coverUrl;
+                console.log(coverUrl);
+                song.cover = coverUrl !== undefined ? coverUrl : song.cover;
                 app.songs.push(song);
 
                 // Reset song variable
@@ -265,9 +269,8 @@ var youTubeMusicListVue = new Vue({
             var song = data.tracks.items[0];
             cover = song.album.images[0].url;
           } else {
-            cover = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            cover = undefined;
           }
-
           resolve(cover);
         }).error(function(data, status, request) {
           reject(data);
