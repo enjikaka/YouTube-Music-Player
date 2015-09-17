@@ -42,7 +42,11 @@ Vue.use(vueResource);
 var youTubeControllerVue = new Vue({
   el: '#youtube-music-controller',
   data: {
-    progress: '100%',
+    progress: {
+      percent: '100%',
+      currentTime: 0,
+      duration: 0
+    },
     timeUpdate: false,
     playIcon: 'play_arrow'
   },
@@ -65,6 +69,11 @@ var youTubeControllerVue = new Vue({
         this.$data.timeUpdate = false;
         this.$data.playIcon = 'play_arrow';
       }
+    },
+    formatTime: function(totalSeconds) {
+      var date = new Date(1970,0,1);
+      date.setSeconds(totalSeconds);
+      return date.toTimeString().replace(/.*(\d{2}:\d{2}).*/, "$1");
     }
   }
 });
@@ -324,10 +333,14 @@ global.onYouTubeIframeAPIReady = function() {
 };
 
 global.youtubeTimeUpdate = function() {
-  var yt = global.youtubePlayer;
-  var percent = (yt.getCurrentTime() / yt.getDuration()) * 100;
+  var yt = global.youtubePlayer,
+      currentTime = yt.getCurrentTime(),
+      duration = yt.getDuration();
+  var percent = (currentTime / duration) * 100;
 
-  youTubeControllerVue.$data.progress = percent + '%';
+  youTubeControllerVue.$data.progress.percent = percent + '%';
+  youTubeControllerVue.$data.progress.currentTime = youTubeControllerVue.formatTime(currentTime);
+  youTubeControllerVue.$data.progress.duration = youTubeControllerVue.formatTime(duration);
 
   if (youTubeControllerVue.$data.timeUpdate) {
     setTimeout(global.youtubeTimeUpdate, 500);

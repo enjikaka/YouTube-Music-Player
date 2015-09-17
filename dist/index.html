@@ -58,7 +58,10 @@
     <div id="youtube-music-controller">
       <button v-on="click: togglePlay()" class="toggle-play"><span class="material-icons">{{playIcon}}</span></button>
       <div class="progress-holder">
-        <div class="progress-bar" style="width: {{progress}}"></div>
+        <div class="progress-bar" style="width: {{progress.percent}}"></div>
+      </div>
+      <div class="elapsed-time">
+        {{progress.currentTime}} / {{progress.duration}}
       </div>
     </div>
   </div>

@@ -5,15 +5,30 @@ body {
   margin: 0;
   user-select: none;
   color: #5d5d5d;
+  font-size: 10pt;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f7f7f7;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $blue;
 }
 
 .site {
   display: flex;
   flex-direction: column;
-  height:100vh;
+  height: 100vh;
+  max-height: 100vh;
 
   #youtube-music-list {
     flex: 1;
+    overflow-y: scroll;
   }
 }
 
@@ -235,6 +250,11 @@ body {
     align-items: center;
     margin: 1rem;
     outline: none;
+  }
+
+  .elapsed-time {
+    font-size: .7rem;
+    margin: 0 .5rem;
   }
 
   .progress-holder {
