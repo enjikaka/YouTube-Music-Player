@@ -1,29 +1,25 @@
 body {
   background-color: #757575;
   font-size: 12pt;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', 'Arial', sans-serif;
   margin: 0;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none; }
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
 
 .site {
-  display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   height: 100vh; }
   .site #youtube-music-list {
-    -webkit-box-flex: 1;
     -webkit-flex: 1;
-        -ms-flex: 1;
-            flex: 1; }
+    -ms-flex: 1;
+    flex: 1; }
 
 #youtube-music-player {
   position: relative;
@@ -73,52 +69,44 @@ body {
     width: 120%;
     height: 120%;
     -webkit-filter: blur(20px);
-            filter: blur(20px);
+    filter: blur(20px);
     z-index: 0;
-    opacity: .7;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; }
+    opacity: .7; }
   #youtube-music-player .current-song {
-    display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-flex-flow: row nowrap;
-        -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
-    -webkit-box-align: center;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
     -webkit-align-items: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: start;
+    -ms-flex-align: center;
+    align-items: center;
     -webkit-justify-content: flex-start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
     position: relative;
     z-index: 2; }
     #youtube-music-player .current-song #artist-drawer {
       height: 352px;
       width: 0px;
-      -webkit-transition: all 350ms ease;
-              transition: all 350ms ease;
+      transition: all 350ms ease;
       color: white;
       position: absolute;
       top: 0;
       right: 0;
       z-index: 100;
-      background-color: #FFFFFF;
       background-color: rgba(255, 255, 255, 0.3); }
       #youtube-music-player .current-song #artist-drawer.show {
         width: 300px; }
       #youtube-music-player .current-song #artist-drawer .artist-image {
         margin: 0; }
         #youtube-music-player .current-song #artist-drawer .artist-image img {
-          -o-object-fit: cover;
-             object-fit: cover;
+          object-fit: cover;
           width: 300px;
           height: 352px; }
       #youtube-music-player .current-song #artist-drawer .artist-name {
         z-index: 101;
-        background-color: #000000;
         background-color: rgba(0, 0, 0, 0.5);
         position: absolute;
         bottom: 0;
@@ -137,19 +125,15 @@ body {
         width: 100%;
         height: 100%; }
     #youtube-music-player .current-song .song-info {
-      -webkit-box-flex: 1;
       -webkit-flex: 1;
-          -ms-flex: 1;
-              flex: 1;
-      display: -webkit-box;
+      -ms-flex: 1;
+      flex: 1;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
       -webkit-flex-direction: column;
-          -ms-flex-direction: column;
-              flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
       color: white;
       text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3); }
     #youtube-music-player .current-song .song-title {
@@ -172,20 +156,17 @@ body {
     margin: 0 1rem;
     padding: 0 1rem;
     height: 0px;
-    -webkit-transition: all 250ms ease;
-            transition: all 250ms ease;
+    transition: all 250ms ease;
     color: #48bef0; }
     #youtube-music-list .add-song form {
-      display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
       padding-top: 1rem; }
       #youtube-music-list .add-song form input {
-        -webkit-box-flex: 1;
         -webkit-flex: 1;
-            -ms-flex: 1;
-                flex: 1;
+        -ms-flex: 1;
+        flex: 1;
         background: white;
         border: 1px solif #f7f7f7;
         color: #555;
@@ -212,32 +193,26 @@ body {
     outline: none;
     width: 26px; }
   #youtube-music-list .song-list {
-    display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
     -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
     margin: 1rem; }
     #youtube-music-list .song-list .song {
-      display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
       -webkit-flex-flow: row nowrap;
-          -ms-flex-flow: row nowrap;
-              flex-flow: row nowrap;
-      -webkit-box-align: baseline;
+      -ms-flex-flow: row nowrap;
+      flex-flow: row nowrap;
       -webkit-align-items: baseline;
-          -ms-flex-align: baseline;
-              align-items: baseline;
+      -ms-flex-align: baseline;
+      align-items: baseline;
       padding: 0.5rem 1rem;
       color: #5d5d5d;
-      -webkit-transition: all 150ms ease;
-              transition: all 150ms ease;
+      transition: all 150ms ease;
       cursor: default; }
       #youtube-music-list .song-list .song:hover {
         color: black; }
