@@ -1,9 +1,10 @@
+$blue: #48bef0;
+
 body {
-  background-color: #757575;
-  font-size: 12pt;
   font-family: 'Open Sans', 'Arial', sans-serif;
   margin: 0;
   user-select: none;
+  color: #5d5d5d;
 }
 
 .site {
@@ -31,9 +32,8 @@ body {
     left: -10%;
     width: 120%;
     height: 120%;
-    filter: blur(20px);
     z-index: 0;
-    opacity: .7;
+    filter: blur(20px);
   }
 
   .current-song {
@@ -160,8 +160,8 @@ body {
   background-color: white;
 
   .add-song {
-    //background-color: #48bef0;
-    border: 2px solid #48bef0;
+    //background-color: $blue;
+    border: 2px solid $blue;
     border-top: 0;
     box-sizing: border-box;
     overflow: hidden;
@@ -169,7 +169,7 @@ body {
     padding: 0 1rem;
     height: 0px;
     transition: all 250ms ease;
-    color: #48bef0;
+    color: $blue;
 
     form {
       display: flex;
@@ -189,7 +189,7 @@ body {
       button {
         color: white;
         font-weight: 600;
-        background-color: #48bef0;
+        background-color: $blue;
         border: 0;
         padding: .5rem 1rem;
         display: block;
@@ -203,13 +203,13 @@ body {
   }
 
   .add-song-button {
-    background: #48bef0;
+    background: $blue;
     color: #fff;
-    font-size: 1.4rem;
     border: 0;
+    font-size: 1.2rem;
     margin: 0 1rem;
+    padding: .5rem;
     outline: none;
-    width: 26px;
   }
 
   .song-list {
@@ -222,7 +222,6 @@ body {
       flex-flow: row nowrap;
       align-items: baseline;
       padding: .5rem 1rem;
-      color: #5d5d5d;
       transition: all 150ms ease;
       cursor: default;
 
@@ -250,6 +249,42 @@ body {
         font-size: .8em;
         margin-left: .4em;
       }
+    }
+  }
+}
+
+#youtube-music-controller {
+  display: flex;
+  align-items: center;
+  background-color: white;
+
+  .toggle-play {
+    color: #5b5b5b;
+    border: 2px solid #5b5b5b;
+    background: none;
+    border-radius: 50%;
+    width: 2.6rem;
+    height: 2.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    outline: none;
+  }
+
+  .progress-holder {
+    flex: 1;
+    position: relative;
+    background-color: #dadada;
+    height: 8px;
+
+    .progress-bar {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      background-color: $blue;
     }
   }
 }

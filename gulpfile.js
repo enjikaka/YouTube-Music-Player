@@ -1,13 +1,8 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    rucksack = require('gulp-rucksack'),
+    autoprefixer = require('gulp-autoprefixer'),
     browserSync = require('browser-sync'),
     browserify = require('gulp-browserify');
-
-// Enables AutoPrefixer in Rucksack
-rucksack({
-    autoprefixer: true
-});
 
 gulp.task('styles', function() {
     /*
@@ -18,10 +13,13 @@ gulp.task('styles', function() {
   */
     gulp.src('./app/scss/*.scss')
         .pipe(sass().on('error', sass.logError))
-        .pipe(rucksack())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe(gulp.dest('./dist/css'))
         .pipe(browserSync.reload({
-        stream: true
+            stream: true
         })
     );
 });

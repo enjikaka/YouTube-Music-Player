@@ -42,9 +42,11 @@ Vue.use(vueResource);
 
 // YoutubeControls Vue
 var youTubeControllerVue = new Vue({
-  el: '#youtube-controller',
+  el: '#youtube-music-controller',
   data: {
-    progress: 100
+    progress: '100%',
+    timeUpdate: false,
+    playIcon: 'play_arrow'
   },
   methods: {
     togglePlay: function() {
@@ -53,6 +55,17 @@ var youTubeControllerVue = new Vue({
         yt.pauseVideo();
       } else {
         yt.playVideo();
+      }
+    },
+    playerStateChange: function(event) {
+      var yt = global.youtubePlayer;
+      if (event.data === 1) {
+        this.$data.timeUpdate = true;
+        this.$data.playIcon = 'pause';
+        global.youtubeTimeUpdate();
+      } else {
+        this.$data.timeUpdate = false;
+        this.$data.playIcon = 'play_arrow';
       }
     }
   }
@@ -92,10 +105,6 @@ var youTubePlayerVue = new Vue({
       event.target.setVolume(100);
       this.canPlay = true;
     },
-    playerStateChange: function(event) {
-      //console.debug('[YoutubePlayer] State Change:');
-      //console.debug(event);
-    },
     playSong: function(song) {
       this.$data.currentSong = song;
       //console.debug(song.youtubeId);
@@ -115,7 +124,7 @@ var youTubeMusicListVue = new Vue({
   el: '#youtube-music-list',
   data: {
     addSongShow: false,
-    addSongButton:'+',
+    addSongButton: 'library_add',
     songs: [],
     song: {
       artist: {
@@ -283,12 +292,12 @@ var youTubeMusicListVue = new Vue({
     addSongToggle: function() {
       this.$data.addSongShow = this.$data.addSongShow === true ? false : true;
       if (!this.$data.addSongShow) {
-        this.$data.addSongButton = '+';
+        this.$data.addSongButton = 'library_add';
         this.$data.youtubeUrl = null;
         document.querySelector('#youtube-url').blur();
 
       } else {
-        this.$data.addSongButton = '-';
+        this.$data.addSongButton = 'close';
         this.$data.youtubeUrl = null;
         document.querySelector('#youtube-url').focus();
       }
@@ -306,9 +315,20 @@ global.onYouTubeIframeAPIReady = function() {
       width: '256',
       events: {
         'onReady': youTubePlayerVue.playerReady,
-        'onStateChange': youTubePlayerVue.playerStateChange
+        'onStateChange': youTubeControllerVue.playerStateChange
       }
   });
+};
+
+global.youtubeTimeUpdate = function() {
+  var yt = global.youtubePlayer;
+  var percent = (yt.getCurrentTime() / yt.getDuration()) * 100;
+
+  youTubeControllerVue.$data.progress = percent + '%';
+
+  if (youTubeControllerVue.$data.timeUpdate) {
+    setTimeout(global.youtubeTimeUpdate, 500);
+  }
 };
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"vue":76,"vue-i18n":3,"vue-resource":5}],2:[function(require,module,exports){

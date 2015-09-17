@@ -23,15 +23,10 @@
     "browserify": "^11.0.1",
     "grunt-browserify": "^4.0.1",
     "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.0.1",
     "gulp-bower": "0.0.10",
     "gulp-browserify": "^0.5.1",
-    "gulp-rucksack": "^0.1.2",
-    "gulp-sass": "^2.0.4",
-    "rucksack-css": "^0.7.0",
-    "vue": "^0.12.13",
-    "watchify": "^3.4.0",
-    "webpack": "^1.12.1",
-    "webpack-stream": "^2.1.0"
+    "gulp-sass": "^2.0.4"
   },
   "dependencies": {
     "express": "^4.13.3",

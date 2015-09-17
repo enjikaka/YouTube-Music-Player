@@ -12,6 +12,7 @@
 
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300" media="not all" onload="if (media != 'all')media='all'">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons" media="not all" onload="if (media != 'all') media = 'all'">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -46,7 +47,7 @@
           <button type="submit">{{ $t('button.addSong') }}</button>
         </form>
       </div>
-      <button v-on="click: addSongToggle()" class="add-song-button">{{addSongButton}}</button>
+      <button v-on="click: addSongToggle()" class="add-song-button material-icons">{{addSongButton}}</button>
       <div class="song-list">
         <div class="song" v-repeat="song in songs" v-on="dblclick: playSong($index)">
           <span class="title">{{song.title}}</span> <span class="artist">{{song.artist.name}}</span>
@@ -54,8 +55,11 @@
       </div>
     </div>
 
-    <div id="youtube-controller">
-      <button v-on="click: togglePlay()">Play/Pause</button>
+    <div id="youtube-music-controller">
+      <button v-on="click: togglePlay()" class="toggle-play"><span class="material-icons">{{playIcon}}</span></button>
+      <div class="progress-holder">
+        <div class="progress-bar" style="width: {{progress}}"></div>
+      </div>
     </div>
   </div>
   <script src="app-locales.js"></script>
