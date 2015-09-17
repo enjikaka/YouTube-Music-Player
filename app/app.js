@@ -188,9 +188,9 @@ var youTubeMusicListVue = new Vue({
       // If the string contains {,[ or ( then remove them.
       if (q.indexOf('[') !== -1 || q.indexOf('(') !== -1) {
           // Remove text in brackets and the brackets
-          q = q.replace(/ *\([^)]*\) */g, '');
-          q = q.replace(/ *\[[^)]*\] */g, '');
-          q = q.replace(/[\[\]']+/g, '');
+          q = q.replace(/ *\([^)]*\) */g, '')
+              .replace(/ *\[[^)]*\] */g, '')
+              .replace(/[\[\]']+/g, '');
       }
       // If the string contains "ft.", replace with ","
       if (q.indexOf('ft.') !== -1) {
@@ -204,8 +204,9 @@ var youTubeMusicListVue = new Vue({
       if (q.indexOf('') !== -1) {
           q = q.replace(/feat/g, ', ');
       }
-      q = q.replace('(ft', '');
-      q = q.replace('(,', '');
+      q = q.replace('(ft', '')
+            .replace('(,', '')
+            .replace('♥', 'Heart');
       return q;
     },
     spotifySearchArtist: function(artistName) {
