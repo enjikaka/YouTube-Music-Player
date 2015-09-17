@@ -38,6 +38,24 @@ Vue.use(vueI18n, {
 
 Vue.use(vueResource);
 
+// YoutubeControls Vue
+var youTubeControllerVue = new Vue({
+  el: '#youtube-controller',
+  data: {
+    progress: 100
+  },
+  methods: {
+    togglePlay: function() {
+      var yt = global.youtubePlayer;
+      if (yt.getPlayerState() === 1) {
+        yt.pauseVideo();
+      } else {
+        yt.playVideo();
+      }
+    }
+  }
+});
+
 // YoutubePlayer Vue
 var youTubePlayerVue = new Vue({
   el: '#youtube-music-player',
