@@ -286,6 +286,8 @@ var youTubeMusicListVue = new Vue({
         var id = app.youtubeUrl.split('?v=')[1];
         app.addSongFromYouTubeId(id);
       }
+
+      app.addSongToggle();
     },
     playSong: function(index) {
       youTubePlayerVue.playSong(this.songs[index]);
