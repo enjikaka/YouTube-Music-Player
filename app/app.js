@@ -158,7 +158,7 @@ var youTubeMusicListVue = new Vue({
       var http = this.$http;
 
       return new Promise(function(resolve, reject) {
-        var apiKey = 'AIzaSyDkcnW3k8jX423bTAyRMHuIBrOOogwSaZA';
+        var apiKey = 'AIzaSyDkcnW3k8jX423bTAyRMHuIBrOOogwSaZA'; // Live
 
         http.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + youtubeId + '&key=' + apiKey, function(data) {
           resolve(data.items[0].snippet);
