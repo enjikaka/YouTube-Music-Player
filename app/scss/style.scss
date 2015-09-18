@@ -62,7 +62,7 @@ body {
 
     #artist-drawer {
       height: 100%;
-      width: 0px;
+      width: 300px;
       transition: all 350ms ease;
       color: white;
       position: absolute;
@@ -70,9 +70,11 @@ body {
       right: 0;
       z-index: 100;
       background-color: rgba(255,255,255,0.3);
+      transform: translate3d(300px,0,0);
+      will-change: width;
 
       &.show {
-        width: 300px;
+        transform: none;
       }
 
       .artist-image {

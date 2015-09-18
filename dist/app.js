@@ -179,8 +179,8 @@ var youTubeMusicListVue = new Vue({
 
             var song = app.song;
 
-            song.title = app.sanitizeString(songMeta.title);
-            song.artist.name = app.sanitizeString(songMeta.artist);
+            song.title = songMeta.title;
+            song.artist.name = songMeta.artist;
             song.youtubeId = youtubeId;
             song.artist.image = snippet.thumbnails.high.url;
             song.cover = snippet.thumbnails.high.url;
@@ -211,21 +211,35 @@ var youTubeMusicListVue = new Vue({
         });
     },
     youtubeTitleToSongMeta: function(name) {
+      // Generates metadata based on format: Artist - Title
+      var app = this;
+      
+      name = app.sanitizeString(name);
       name = name === null ? 'Unkown' : name;
       name = name.replace(/_/g, ' ');
+
       var artist = artist === null ? 'Unkown' : artist;
+
       if (name.indexOf(' - ') !== -1) {
           name = name.split(' - ');
           artist = name[0];
           name = name[1];
       }
+
       name = name.split('.')[0];
+
       return {
           title: name,
           artist: artist
       };
     },
     sanitizeString: function(q) {
+
+      // If the string is prefixed with [GENRE]
+      if (q.indexOf('] - ') !== -1) {
+        q = q.split('] - ')[1];
+      }
+
       // If the string contains {,[ or ( then remove them.
       if (q.indexOf('[') !== -1 || q.indexOf('(') !== -1) {
           // Remove text in brackets and the brackets
@@ -233,21 +247,19 @@ var youTubeMusicListVue = new Vue({
               .replace(/ *\[[^)]*\] */g, '')
               .replace(/[\[\]']+/g, '');
       }
+
       // If the string contains "ft.", replace with ","
       if (q.indexOf('ft.') !== -1) {
-         q = q.split('ft.')[0];
-      }
-      // If the string contains "feat", replace with ","
-      if (q.indexOf('feat.') !== -1) {
-          q = q.split('feat.')[0];
+         q = q.replace('ft.', ', ');
       }
 
-      if (q.indexOf('') !== -1) {
-          q = q.replace(/feat/g, ', ');
+      // If the string contains "feat", replace with ","
+      if (q.indexOf('feat.') !== -1) {
+          q = q.replace('feat.', ', ');
       }
-      q = q.replace('(ft', '')
-            .replace('(,', '')
-            .replace('♥', 'Heart');
+
+      // Just for Savant lel
+      q = q.replace('♥', 'Heart');
       return q;
     },
     spotifySearchArtist: function(artistName) {
@@ -2337,8 +2349,8 @@ exports.$compile = function (el, host) {
   return compiler.compile(el, this.$options, true)(this, el, host)
 }
 
-}).call(this,require("VCmEsw"))
-},{"../compiler":22,"../util":73,"VCmEsw":2}],18:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../compiler":22,"../util":73,"1YiZ5S":2}],18:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -2439,8 +2451,8 @@ exports.push = function (watcher) {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"./config":24,"./util":73,"VCmEsw":2}],19:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"./config":24,"./util":73,"1YiZ5S":2}],19:[function(require,module,exports){
 /**
  * A doubly linked list-based Least Recently Used (LRU)
  * cache. Will keep most recently used items while
@@ -2740,8 +2752,8 @@ function getDefault (options) {
     : def
 }
 
-}).call(this,require("VCmEsw"))
-},{"../config":24,"../directives/prop":40,"../parsers/path":63,"../parsers/text":65,"../util":73,"VCmEsw":2}],21:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../config":24,"../directives/prop":40,"../parsers/path":63,"../parsers/text":65,"../util":73,"1YiZ5S":2}],21:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compileProps = require('./compile-props')
@@ -3370,8 +3382,8 @@ function directiveComparator (a, b) {
   return a > b ? 1 : -1
 }
 
-}).call(this,require("VCmEsw"))
-},{"../config":24,"../directives/component":29,"../parsers/directive":61,"../parsers/template":64,"../parsers/text":65,"../util":73,"./compile-props":20,"VCmEsw":2}],22:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../config":24,"../directives/component":29,"../parsers/directive":61,"../parsers/template":64,"../parsers/text":65,"../util":73,"./compile-props":20,"1YiZ5S":2}],22:[function(require,module,exports){
 var _ = require('../util')
 
 _.extend(exports, require('./compile'))
@@ -3524,8 +3536,8 @@ function mergeAttrs (from, to) {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../config":24,"../parsers/template":64,"../util":73,"VCmEsw":2}],24:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../config":24,"../parsers/template":64,"../util":73,"1YiZ5S":2}],24:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -3905,8 +3917,8 @@ Directive.prototype._teardown = function () {
 
 module.exports = Directive
 
-}).call(this,require("VCmEsw"))
-},{"./config":24,"./parsers/expression":62,"./parsers/text":65,"./util":73,"./watcher":77,"VCmEsw":2}],26:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"./config":24,"./parsers/expression":62,"./parsers/text":65,"./util":73,"./watcher":77,"1YiZ5S":2}],26:[function(require,module,exports){
 // xlink
 var xlinkNS = 'http://www.w3.org/1999/xlink'
 var xlinkRE = /^xlink:/
@@ -4398,8 +4410,8 @@ module.exports = {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../config":24,"../parsers/template":64,"../util":73,"VCmEsw":2}],30:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../config":24,"../parsers/template":64,"../util":73,"1YiZ5S":2}],30:[function(require,module,exports){
 module.exports = {
 
   isLiteral: true,
@@ -4583,8 +4595,8 @@ function callDetach (child) {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../cache":19,"../compiler":22,"../parsers/template":64,"../transition":66,"../util":73,"VCmEsw":2}],33:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../cache":19,"../compiler":22,"../parsers/template":64,"../transition":66,"../util":73,"1YiZ5S":2}],33:[function(require,module,exports){
 // manipulation directives
 exports.text = require('./text')
 exports.html = require('./html')
@@ -4739,8 +4751,8 @@ module.exports = {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../../util":73,"./checkbox":34,"./radio":36,"./select":37,"./text":38,"VCmEsw":2}],36:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../../util":73,"./checkbox":34,"./radio":36,"./select":37,"./text":38,"1YiZ5S":2}],36:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -5014,8 +5026,8 @@ function indexOf (arr, val) {
   return -1
 }
 
-}).call(this,require("VCmEsw"))
-},{"../../parsers/directive":61,"../../util":73,"../../watcher":77,"VCmEsw":2}],38:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../../parsers/directive":61,"../../util":73,"../../watcher":77,"1YiZ5S":2}],38:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -5207,8 +5219,8 @@ module.exports = {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../util":73,"VCmEsw":2}],40:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../util":73,"1YiZ5S":2}],40:[function(require,module,exports){
 // NOTE: the prop internal directive is compiled and linked
 // during _initScope(), before the created hook is called.
 // The purpose is to make the initial prop values available
@@ -5297,8 +5309,8 @@ module.exports = {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../util":73,"VCmEsw":2}],42:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../util":73,"1YiZ5S":2}],42:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -6071,8 +6083,8 @@ function isPrimitive (value) {
     type === 'boolean'
 }
 
-}).call(this,require("VCmEsw"))
-},{"../compiler":22,"../config":24,"../parsers/expression":62,"../parsers/template":64,"../parsers/text":65,"../util":73,"VCmEsw":2}],43:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../compiler":22,"../config":24,"../parsers/expression":62,"../parsers/template":64,"../parsers/text":65,"../util":73,"1YiZ5S":2}],43:[function(require,module,exports){
 var transition = require('../transition')
 
 module.exports = function (value) {
@@ -6431,8 +6443,8 @@ module.exports = {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../cache":19,"../compiler":22,"../directives/if":32,"../parsers/template":64,"../parsers/text":65,"../util":73,"VCmEsw":2}],50:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../cache":19,"../compiler":22,"../directives/if":32,"../parsers/template":64,"../parsers/text":65,"../util":73,"1YiZ5S":2}],50:[function(require,module,exports){
 var _ = require('../util')
 var Path = require('../parsers/path')
 
@@ -7018,8 +7030,8 @@ exports._callHook = function (hook) {
   this.$emit('hook:' + hook)
 }
 
-}).call(this,require("VCmEsw"))
-},{"../util":73,"VCmEsw":2}],54:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../util":73,"1YiZ5S":2}],54:[function(require,module,exports){
 var mergeOptions = require('../util').mergeOptions
 
 /**
@@ -7206,8 +7218,8 @@ exports._resolveComponent = function (id, cb) {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../util":73,"VCmEsw":2}],56:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../util":73,"1YiZ5S":2}],56:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -7492,8 +7504,8 @@ exports._defineMeta = function (key, value) {
   })
 }
 
-}).call(this,require("VCmEsw"))
-},{"../compiler":22,"../observer":59,"../observer/dep":58,"../util":73,"../watcher":77,"VCmEsw":2}],57:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../compiler":22,"../observer":59,"../observer/dep":58,"../util":73,"../watcher":77,"1YiZ5S":2}],57:[function(require,module,exports){
 var _ = require('../util')
 var arrayProto = Array.prototype
 var arrayMethods = Object.create(arrayProto)
@@ -8423,8 +8435,8 @@ exports.isSimplePath = function (exp) {
     exp.slice(0, 5) !== 'Math.'
 }
 
-}).call(this,require("VCmEsw"))
-},{"../cache":19,"../util":73,"./path":63,"VCmEsw":2}],63:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../cache":19,"../util":73,"./path":63,"1YiZ5S":2}],63:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Cache = require('../cache')
@@ -8775,8 +8787,8 @@ function warnNonExistent (path) {
   )
 }
 
-}).call(this,require("VCmEsw"))
-},{"../cache":19,"../util":73,"VCmEsw":2}],64:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../cache":19,"../util":73,"1YiZ5S":2}],64:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var templateCache = new Cache(1000)
@@ -9875,8 +9887,8 @@ function formatValue (val) {
   return Object.prototype.toString.call(val).slice(8, -1)
 }
 
-}).call(this,require("VCmEsw"))
-},{"./index":73,"VCmEsw":2}],70:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"./index":73,"1YiZ5S":2}],70:[function(require,module,exports){
 (function (process){
 /**
  * Enable debug utilities.
@@ -9943,8 +9955,8 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-}).call(this,require("VCmEsw"))
-},{"../config":24,"VCmEsw":2}],71:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../config":24,"1YiZ5S":2}],71:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -10219,8 +10231,8 @@ exports.createAnchor = function (content, persist) {
     : document.createTextNode(persist ? ' ' : '')
 }
 
-}).call(this,require("VCmEsw"))
-},{"../config":24,"./index":73,"VCmEsw":2}],72:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../config":24,"./index":73,"1YiZ5S":2}],72:[function(require,module,exports){
 // can we use __proto__?
 exports.hasProto = '__proto__' in {}
 
@@ -10990,8 +11002,8 @@ exports.resolveAsset = function resolve (options, type, id) {
   return asset
 }
 
-}).call(this,require("VCmEsw"))
-},{"../config":24,"./index":73,"VCmEsw":2}],76:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"../config":24,"./index":73,"1YiZ5S":2}],76:[function(require,module,exports){
 var _ = require('./util')
 var extend = _.extend
 
@@ -11398,5 +11410,5 @@ function traverse (obj) {
 
 module.exports = Watcher
 
-}).call(this,require("VCmEsw"))
-},{"./batcher":18,"./config":24,"./observer/dep":58,"./parsers/expression":62,"./util":73,"VCmEsw":2}]},{},[1])
+}).call(this,require("1YiZ5S"))
+},{"./batcher":18,"./config":24,"./observer/dep":58,"./parsers/expression":62,"./util":73,"1YiZ5S":2}]},{},[1])
