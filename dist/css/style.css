@@ -65,16 +65,20 @@ body {
     z-index: 2; }
     #youtube-music-player .current-song #artist-drawer {
       height: 100%;
-      width: 0px;
+      width: 300px;
       transition: all 350ms ease;
       color: white;
       position: absolute;
       top: 0;
       right: 0;
       z-index: 100;
-      background-color: rgba(255, 255, 255, 0.3); }
+      background-color: rgba(255, 255, 255, 0.3);
+      -webkit-transform: translate3d(300px, 0, 0);
+      transform: translate3d(300px, 0, 0);
+      will-change: width; }
       #youtube-music-player .current-song #artist-drawer.show {
-        width: 300px; }
+        -webkit-transform: none;
+        transform: none; }
       #youtube-music-player .current-song #artist-drawer .artist-image {
         margin: 0; }
         #youtube-music-player .current-song #artist-drawer .artist-image img {

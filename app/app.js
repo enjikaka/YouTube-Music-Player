@@ -177,8 +177,8 @@ var youTubeMusicListVue = new Vue({
 
             var song = app.song;
 
-            song.title = app.sanitizeString(songMeta.title);
-            song.artist.name = app.sanitizeString(songMeta.artist);
+            song.title = songMeta.title;
+            song.artist.name = songMeta.artist;
             song.youtubeId = youtubeId;
             song.artist.image = snippet.thumbnails.high.url;
             song.cover = snippet.thumbnails.high.url;
@@ -209,21 +209,35 @@ var youTubeMusicListVue = new Vue({
         });
     },
     youtubeTitleToSongMeta: function(name) {
+      // Generates metadata based on format: Artist - Title
+      var app = this;
+      
+      name = app.sanitizeString(name);
       name = name === null ? 'Unkown' : name;
       name = name.replace(/_/g, ' ');
+
       var artist = artist === null ? 'Unkown' : artist;
+
       if (name.indexOf(' - ') !== -1) {
           name = name.split(' - ');
           artist = name[0];
           name = name[1];
       }
+
       name = name.split('.')[0];
+
       return {
           title: name,
           artist: artist
       };
     },
     sanitizeString: function(q) {
+
+      // If the string is prefixed with [GENRE]
+      if (q.indexOf('] - ') !== -1) {
+        q = q.split('] - ')[1];
+      }
+
       // If the string contains {,[ or ( then remove them.
       if (q.indexOf('[') !== -1 || q.indexOf('(') !== -1) {
           // Remove text in brackets and the brackets
@@ -231,21 +245,19 @@ var youTubeMusicListVue = new Vue({
               .replace(/ *\[[^)]*\] */g, '')
               .replace(/[\[\]']+/g, '');
       }
+
       // If the string contains "ft.", replace with ","
       if (q.indexOf('ft.') !== -1) {
-         q = q.split('ft.')[0];
-      }
-      // If the string contains "feat", replace with ","
-      if (q.indexOf('feat.') !== -1) {
-          q = q.split('feat.')[0];
+         q = q.replace('ft.', ', ');
       }
 
-      if (q.indexOf('') !== -1) {
-          q = q.replace(/feat/g, ', ');
+      // If the string contains "feat", replace with ","
+      if (q.indexOf('feat.') !== -1) {
+          q = q.replace('feat.', ', ');
       }
-      q = q.replace('(ft', '')
-            .replace('(,', '')
-            .replace('♥', 'Heart');
+
+      // Just for Savant lel
+      q = q.replace('♥', 'Heart');
       return q;
     },
     spotifySearchArtist: function(artistName) {
